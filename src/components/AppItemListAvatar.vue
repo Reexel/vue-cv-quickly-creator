@@ -1,12 +1,18 @@
 <template>
   <div class="avatar">
-    <img :src="dataAvatar" />
+    <img :src="text" />
   </div>
 </template>
 
 <script>
 export default {
-  props: ['data'],
+  // props: ['data'],
+  props: {
+    text: {
+      type: String
+    }
+    // 'type': String,
+  },
   methods: {
     showAvatar () {
       return this.dataAvatar

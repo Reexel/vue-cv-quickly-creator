@@ -44,37 +44,53 @@ export default {
     }
   },
   methods: {
+    async updateData (id, params) {
+      await axios.put(process.env.VUE_APP_URL_DATA + '/' + id + '.json', params)
+    },
+    async insertData (params) {
+      await axios.post(process.env.VUE_APP_URL_DATA + '.json', params)
+    },
     async deleteData (id) {
-      await axios.delete(process.env.VUE_APP_URL_DATA + id + '.json')
+      await axios.delete(process.env.VUE_APP_URL_DATA + '/' + id + '.json')
     },
     async createData (value, type) {
-      if (type === 'title' || type === 'avatar') {
+      const params = JSON.stringify({
+        type: type,
+        value: value
+      })
+
+      if (type === 'title') {
         const oldTitle = this.data.find(element => element.type === 'title')
         if (oldTitle) {
-          await this.deleteData(oldTitle.id)
+          await this.updateData(oldTitle.id, params)
         }
-      }
+      } else if (type === 'avatar') {
+        const oldAvatar = this.data.find(element => element.type === 'avatar')
+        if (oldAvatar) {
+          await this.updateData(oldAvatar.id, params)
+        }
+      } else {
+        const url = process.env.URL_DATA + '.json'
 
-      const url = process.env.URL_DATA + '.json'
-
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          type: type,
-          value: value
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            type: type,
+            value: value
+          })
         })
-      })
 
-      const firebaseData = await response.json()
+        const firebaseData = await response.json()
 
-      this.data.push({
-        type: type,
-        value: value,
-        id: firebaseData.name
-      })
+        this.data.push({
+          type: type,
+          value: value,
+          id: firebaseData.name
+        })
+      }
 
       await this.loadData()
     },

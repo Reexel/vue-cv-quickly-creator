@@ -1,15 +1,12 @@
 <template>
-  <div v-for="cv in dataCV" :key="cv.id">
-    <h2 v-if="cv.type === 'subtitle'">{{ cv.type === 'subtitle' ? cv.value : ''}}</h2>
-    <p v-if="cv.type === 'text'">
-      {{ cv.type === 'text' ? cv.value : ''}}
-    </p>
-  </div>
+  <h2>{{ text }}</h2>
 </template>
 
 <script>
 export default {
-  props: ['data'],
+  props: {
+    text: String
+  },
   methods: {
     showText () {
       return this.dataCV

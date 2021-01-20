@@ -1,11 +1,15 @@
 <template>
   <div class="card card-w70">
-    <h3 v-if="!showTitle && !showAvatar && !showDataCV">Добавьте первый блок, чтобы увидеть результат</h3>
+    <h3 v-if="$props.data.length === 0">Добавьте первый блок, чтобы увидеть результат</h3>
 
     <div v-else>
-      <app-item-list-title ref="title" :data="data"></app-item-list-title>
-      <app-item-list-avatar ref="avatar" :data="data"></app-item-list-avatar>
-      <app-item-list-text ref="text" :data="data"></app-item-list-text>
+      <component
+        :is="componentName(cv.type)"
+        v-for="cv in $props.data"
+        :text="cv.text"
+        :key="cv.id"
+      ></component>
+
     </div>
   </div>
 </template>
@@ -22,14 +26,32 @@ export default {
     'app-item-list-avatar': AppItemListAvatar
   },
   methods: {
-    showTitle () {
-      return this.$refs.title.showTitle()
-    },
-    showAvatar () {
-      return this.$refs.avatar.showAvatar()
-    },
-    showDataCV () {
-      return this.$refs.text.showText()
+    // showTitle () {
+    //   return this.$refs.title.showTitle()
+    // },
+    // showAvatar () {
+    //   return this.$refs.avatar.showAvatar()
+    // },
+    // showDataCV () {
+    //   return this.$refs.text.showText()
+    // },
+    componentName (name) {
+      let compName = ''
+      switch (name) {
+        case ('title'):
+          compName = 'AppItemListTitle'
+          break
+        case ('avatar'):
+          compName = 'AppItemListAvatar'
+          break
+        case ('subtitle'):
+          compName = 'AppItemListSubtitle'
+          break
+        case ('text'):
+          compName = 'AppItemListText'
+          break
+      }
+      return compName
     }
   },
   data () {
@@ -37,12 +59,14 @@ export default {
       // dataTitle: null,
       // dataAvatar: null,
       // dataCV: null
+      // data: this.data
     }
   },
   computed: {
     // dataTitle: function () {
     //   this.$refs.title.showTitle()
     // }
+
   },
   mounted () {
     // console.log('RRRTTT', this.$refs.title)

@@ -4,7 +4,9 @@
 
 <script>
 export default {
-  props: ['data'],
+  props: {
+    text: String
+  },
   methods: {
     showTitle () {
       return this.dataTitle
