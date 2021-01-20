@@ -1,12 +1,12 @@
 <template>
   <div class="card card-w70">
-    <h3 v-if="$props.data.length === 0">Добавьте первый блок, чтобы увидеть результат</h3>
+    <h3 v-if="data.length === 0">Добавьте первый блок, чтобы увидеть результат</h3>
 
     <div v-else>
       <component
         :is="componentName(cv.type)"
-        v-for="cv in $props.data"
-        :text="cv.text"
+        v-for="cv in data"
+        :text="cv.value"
         :key="cv.id"
       ></component>
 
@@ -18,59 +18,19 @@
 import AppItemListTitle from '@/components/AppItemListTitle'
 import AppItemListText from '@/components/AppItemListText'
 import AppItemListAvatar from '@/components/AppItemListAvatar'
+import AppItemListSubtitle from '@/components/AppItemListSubtitle'
 export default {
   props: ['data'],
   components: {
-    'app-item-list-title': AppItemListTitle,
-    'app-item-list-text': AppItemListText,
-    'app-item-list-avatar': AppItemListAvatar
+    AppItemListTitle,
+    AppItemListText,
+    AppItemListAvatar,
+    AppItemListSubtitle
   },
   methods: {
-    // showTitle () {
-    //   return this.$refs.title.showTitle()
-    // },
-    // showAvatar () {
-    //   return this.$refs.avatar.showAvatar()
-    // },
-    // showDataCV () {
-    //   return this.$refs.text.showText()
-    // },
     componentName (name) {
-      let compName = ''
-      switch (name) {
-        case ('title'):
-          compName = 'AppItemListTitle'
-          break
-        case ('avatar'):
-          compName = 'AppItemListAvatar'
-          break
-        case ('subtitle'):
-          compName = 'AppItemListSubtitle'
-          break
-        case ('text'):
-          compName = 'AppItemListText'
-          break
-      }
-      return compName
+      return 'AppItemList' + name[0].toUpperCase() + name.substring(1)
     }
-  },
-  data () {
-    return {
-      // dataTitle: null,
-      // dataAvatar: null,
-      // dataCV: null
-      // data: this.data
-    }
-  },
-  computed: {
-    // dataTitle: function () {
-    //   this.$refs.title.showTitle()
-    // }
-
-  },
-  mounted () {
-    // console.log('RRRTTT', this.$refs.title)
-    // this.$refs.title.showTitle()
   }
 }
 </script>

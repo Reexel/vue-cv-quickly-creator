@@ -6,28 +6,8 @@
 
 <script>
 export default {
-  // props: ['data'],
   props: {
-    text: {
-      type: String
-    }
-    // 'type': String,
-  },
-  methods: {
-    showAvatar () {
-      return this.dataAvatar
-    }
-  },
-  computed: {
-    dataAvatar: function (data) {
-      if (data.data.length > 0) {
-        const avatar = data.data.filter(element => element.type === 'avatar')
-        if (avatar.length > 0) {
-          return avatar[0].value
-        }
-      }
-      return null
-    }
+    text: String
   }
 }
 </script>
